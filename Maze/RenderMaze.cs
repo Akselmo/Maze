@@ -19,6 +19,16 @@ public static class RenderMaze
                 {
                     color = Color.RED;
                 }
+
+                if (tile.Type == ElementType.Start)
+                {
+                    color = Color.BLUE;
+                }
+
+                if (tile.Type == ElementType.Exit)
+                {
+                    color = Color.GREEN;
+                }
                 Raylib.DrawText(""+(char)tile.Type, (int)tile.Position.X*20, (int)tile.Position.Y*20, 20, color);
             }
 

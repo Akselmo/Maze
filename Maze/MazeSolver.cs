@@ -7,7 +7,7 @@ namespace Maze;
 public class MazeSolver
 {
     public MazeTile[,] MazeTiles;
-    public Queue<MazeTile> MazeQueue = new Queue<MazeTile>();
+    public Stack<MazeTile> MazeQueue = new Stack<MazeTile>();
     public List<MazeTile> StartPoints = new List<MazeTile>();
     public List<MazeTile> ExitPoints = new List<MazeTile>();
     public int Moves = 0;
@@ -29,17 +29,19 @@ public class MazeSolver
         }
     }
 
-    public MazeTile GetPathBFS(MazeTile mazeTile)
+    public bool GetPathDFS(MazeTile mazeTile, int maximumMoves)
     {
-        MazeQueue.Enqueue(mazeTile);
-        while (MazeQueue.Count > 0)
+        MazeQueue.Push(mazeTile);
+        var moves = 0;
+        while (MazeQueue.Count > 0 && moves < maximumMoves)
         {
-            MazeTile tile = MazeQueue.Dequeue();
+            moves++;
+            MazeTile tile = MazeQueue.Pop();
 
             if (tile.Type == ElementType.Exit)
             {
                 Console.WriteLine("Exit reached");
-                return tile;
+                return true;
             }
 
             QueueNextTile(tile, new Vector2(tile.Position.X + 1, tile.Position.Y));
@@ -47,9 +49,10 @@ public class MazeSolver
             QueueNextTile(tile, new Vector2(tile.Position.X, tile.Position.Y + 1));
             QueueNextTile(tile, new Vector2(tile.Position.X, tile.Position.Y - 1));
             Console.WriteLine("Solving tile... Queue elements: " + MazeQueue.Count);
+            
         }
 
-        return null;
+        return false;
     }
 
     public void QueueNextTile(MazeTile currentTile, Vector2 nextPosition)
@@ -59,7 +62,7 @@ public class MazeSolver
             currentTile.SetVisited();
             MazeTile nextTile = MazeTiles[(int)nextPosition.X, (int)nextPosition.Y];
             nextTile.Parent = currentTile;
-            MazeQueue.Enqueue(nextTile);
+            MazeQueue.Push(nextTile);
         }
     }
     
@@ -83,10 +86,12 @@ public class MazeSolver
     {
         foreach (var start in StartPoints)
         {
-            var tile = GetPathBFS(start);
+            var success = GetPathDFS(start, maximumMoves);
             RenderMaze.Render(MazeTiles);
+            return success;
         }
-        return true;
+
+        return false;
     }
     
 }
