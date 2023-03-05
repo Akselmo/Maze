@@ -23,6 +23,6 @@ internal class Maze
         }
         var mazeSolver = new MazeSolver(mazeArray);
 
-        return mazeSolver.Run(200);
+        return mazeSolver.Run(500);
     }
 }

@@ -21,7 +21,7 @@ public static class FileParser
         {
             foreach (char ch in line)
             {
-                var tile = new MazeTile(new Vector2(x, y), MazeTile.GetElement(ch), null);
+                var tile = new MazeTile(new Vector2(x, y), MazeTile.GetElement(ch), null, 0);
                 maze[x, y] = tile;
                 x++;
             }

@@ -3,7 +3,7 @@ using Raylib_cs;
 
 public static class RenderMaze
 {
-    public static void Render(MazeTile[,] maze)
+    public static void Render(MazeTile[,] maze, List<MazeTile> path)
     {
         Raylib.InitWindow(800, 480, "Close window with ESC");
 
@@ -15,11 +15,6 @@ public static class RenderMaze
             foreach (var tile in maze)
             {
                 var color = Color.BLACK;
-                if (tile.Visited)
-                {
-                    color = Color.RED;
-                }
-
                 if (tile.Type == ElementType.Start)
                 {
                     color = Color.BLUE;
@@ -30,6 +25,11 @@ public static class RenderMaze
                     color = Color.GREEN;
                 }
                 Raylib.DrawText(""+(char)tile.Type, (int)tile.Position.X*20, (int)tile.Position.Y*20, 20, color);
+            }
+
+            foreach (var tile in path)
+            {
+                Raylib.DrawText("X", (int)tile.Position.X*20, (int)tile.Position.Y*20, 20, Color.RED);
             }
 
             Raylib.EndDrawing();
