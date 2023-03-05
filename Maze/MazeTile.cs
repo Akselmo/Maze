@@ -8,7 +8,8 @@ public enum ElementType
     Path = ' ',
     Exit = 'E',
     Start = '^',
-    Visited = 'X'
+    Visited = 'X',
+    None = '\0'
 
 }
 
@@ -16,24 +17,34 @@ public class MazeTile
 {
     public Vector2 Position;
     public ElementType Type;
+    public MazeTile Parent;
     public bool Visited = false;
 
-    public MazeTile(Vector2 position, ElementType type)
+    public MazeTile(Vector2 position, ElementType type, MazeTile parent)
     {
         Position = position;
         Type = type;
+        Parent = parent;
     }
-
-    public static MazeTile GetElement(char ch, Vector2 pos)
+    
+    public void SetVisited()
+    {
+        Visited = true;
+        Type = ElementType.Visited;
+    }
+    
+    public static ElementType GetElement(char ch)
     {
         var tiles = Enum.GetValues(typeof(ElementType));
         foreach (ElementType tile in tiles)
         {
             if (ch == (char)tile)
             {
-                return new MazeTile(pos, tile);
+                return tile;
             }
         }
-        return null;
+        return ElementType.None;
     }
+
+
 }

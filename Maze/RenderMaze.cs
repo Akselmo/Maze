@@ -3,7 +3,7 @@ using Raylib_cs;
 
 public static class RenderMaze
 {
-    public static void Render(List<MazeTile> maze)
+    public static void Render(MazeTile[,] maze)
     {
         Raylib.InitWindow(800, 480, "Close window with ESC");
 

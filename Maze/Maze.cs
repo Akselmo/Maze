@@ -16,12 +16,12 @@ internal class Maze
     public static bool Run(string filePath)
     {
         Console.WriteLine("Solving maze in file: " + filePath);
-        var mazeList = FileParser.ReadFile(filePath);
-        if (mazeList == null)
+        var mazeArray = FileParser.ReadFile(filePath);
+        if (mazeArray == null)
         {
             return false;
         }
-        var mazeSolver = new MazeSolver(mazeList);
+        var mazeSolver = new MazeSolver(mazeArray);
 
         return mazeSolver.Run(200);
     }

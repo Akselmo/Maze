@@ -6,11 +6,13 @@ namespace Maze;
 
 public class MazeSolver
 {
-    public List<MazeTile> MazeTiles;
+    public MazeTile[,] MazeTiles;
+    public Queue<MazeTile> MazeQueue = new Queue<MazeTile>();
     public List<MazeTile> StartPoints = new List<MazeTile>();
     public List<MazeTile> ExitPoints = new List<MazeTile>();
     public int Moves = 0;
-    public MazeSolver(List<MazeTile> mazeTiles)
+
+    public MazeSolver(MazeTile[,] mazeTiles)
     {
         MazeTiles = mazeTiles;
         foreach (var tile in MazeTiles)
@@ -27,45 +29,64 @@ public class MazeSolver
         }
     }
 
-    public bool Run(int maximumMoves)
+    public MazeTile GetPathBFS(MazeTile mazeTile)
     {
-        foreach (var startPoint in StartPoints)
+        MazeQueue.Enqueue(mazeTile);
+        while (MazeQueue.Count > 0)
         {
-            Solve(startPoint);
-        }
+            MazeTile tile = MazeQueue.Dequeue();
 
-        RenderMaze.Render(MazeTiles);
-        return true;
-    }
-
-    public void Solve(MazeTile startPosition)
-    {
-        MazeTile currentTile = startPosition;
-        foreach (var exit in ExitPoints)
-        {
-            while (!exit.Visited)
+            if (tile.Type == ElementType.Exit)
             {
-                if (currentTile.Position == exit.Position)
-                {
-                    exit.Visited = true;
-                    break;
-                }
-            }
-
-        }
-    }
-
-    MazeTile? GetTile(Vector2 position)
-    {
-        foreach (var tile in MazeTiles)
-        {
-            if (tile.Position == position)
-            {
+                Console.WriteLine("Exit reached");
                 return tile;
             }
+
+            QueueNextTile(tile, new Vector2(tile.Position.X + 1, tile.Position.Y));
+            QueueNextTile(tile, new Vector2(tile.Position.X - 1, tile.Position.Y));
+            QueueNextTile(tile, new Vector2(tile.Position.X, tile.Position.Y + 1));
+            QueueNextTile(tile, new Vector2(tile.Position.X, tile.Position.Y - 1));
+            Console.WriteLine("Solving tile... Queue elements: " + MazeQueue.Count);
         }
+
         return null;
     }
 
-
+    public void QueueNextTile(MazeTile currentTile, Vector2 nextPosition)
+    {
+        if (CanUseTile(nextPosition))
+        {
+            currentTile.SetVisited();
+            MazeTile nextTile = MazeTiles[(int)nextPosition.X, (int)nextPosition.Y];
+            nextTile.Parent = currentTile;
+            MazeQueue.Enqueue(nextTile);
+        }
+    }
+    
+    public bool CanUseTile(Vector2 position)
+    {
+        int x = (int)position.X;
+        int y = (int)position.Y;
+        
+        if(x > 0 && x < MazeTiles.GetLength(0) && 
+           y > 0 && y < MazeTiles.GetLength(1) && 
+           (MazeTiles[x, y].Type == ElementType.Path || 
+            MazeTiles[x, y].Type == ElementType.Exit)
+          )
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public bool Run(int maximumMoves)
+    {
+        foreach (var start in StartPoints)
+        {
+            var tile = GetPathBFS(start);
+            RenderMaze.Render(MazeTiles);
+        }
+        return true;
+    }
+    
 }

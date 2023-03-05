@@ -4,7 +4,7 @@ namespace Maze;
 
 public static class FileParser
 {
-    public static List<MazeTile> ReadFile(string filePath)
+    public static MazeTile[,] ReadFile(string filePath)
     {
         if (!Path.Exists(filePath))
         {
@@ -12,17 +12,17 @@ public static class FileParser
         }
         
         var lines = File.ReadAllLines(filePath);
-
-        List<MazeTile> maze = new List<MazeTile>();
         
         int x = 0;
         int y = 0;
-
+        MazeTile[,] maze = new MazeTile[lines[1].Length,lines.Length];
+        
         foreach (var line in lines)
         {
             foreach (char ch in line)
             {
-                maze.Add(MazeTile.GetElement(ch, new Vector2(x,y)));
+                var tile = new MazeTile(new Vector2(x, y), MazeTile.GetElement(ch), null);
+                maze[x, y] = tile;
                 x++;
             }
             x = 0;
