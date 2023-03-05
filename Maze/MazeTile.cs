@@ -30,7 +30,10 @@ public class MazeTile
     public void SetVisited()
     {
         Visited = true;
-        Type = ElementType.Visited;
+        if (Type != ElementType.Start)
+        {
+            Type = ElementType.Visited;
+        }
     }
     
     public static ElementType GetElement(char ch)

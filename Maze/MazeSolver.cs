@@ -29,7 +29,7 @@ public class MazeSolver
         }
     }
 
-    public bool GetPathDFS(MazeTile mazeTile, int maximumMoves)
+    public bool GetPathBFS(MazeTile mazeTile, int maximumMoves)
     {
         MazeQueue.Push(mazeTile);
         var moves = 0;
@@ -86,7 +86,7 @@ public class MazeSolver
     {
         foreach (var start in StartPoints)
         {
-            var success = GetPathDFS(start, maximumMoves);
+            var success = GetPathBFS(start, maximumMoves);
             RenderMaze.Render(MazeTiles);
             return success;
         }
