@@ -1,6 +1,6 @@
 ﻿namespace Maze;
 
-internal class Maze
+internal class Program
 {
     static void Main(string[] args)
     {
@@ -16,12 +16,12 @@ internal class Maze
     public static bool Run(string filePath)
     {
         Console.WriteLine("Solving maze in file: " + filePath);
-        var mazeArray = FileParser.ReadFile(filePath);
+        List<List<Tile>> mazeArray = FileParser.ReadFile(filePath);
         if (mazeArray == null)
         {
             return false;
         }
-        var mazeSolver = new MazeSolver(mazeArray);
+        var mazeSolver = new Solver(mazeArray);
 
         return mazeSolver.Run(500);
     }

@@ -1,10 +1,8 @@
-using System.Numerics;
-
 namespace Maze;
 
 public static class FileParser
 {
-    public static MazeTile[,] ReadFile(string filePath)
+    public static List<List<Tile>> ReadFile(string filePath)
     {
         if (!Path.Exists(filePath))
         {
@@ -15,18 +13,21 @@ public static class FileParser
         
         int x = 0;
         int y = 0;
-        MazeTile[,] maze = new MazeTile[lines[1].Length,lines.Length];
-        
-        foreach (var line in lines)
+        List<List<Tile>> maze = new List<List<Tile>>();
+
+        foreach (var li in lines)
         {
-            foreach (char ch in line)
+            List<Tile> line = new List<Tile>();
+            foreach (char ch in li)
             {
-                var tile = new MazeTile(new Vector2(x, y), MazeTile.GetElement(ch), null, 0);
-                maze[x, y] = tile;
+                var tile = new Tile(new Point(x, y), null, 0);
+                tile.Type = (TileType)ch;
+                line.Add(tile);
                 x++;
             }
             x = 0;
             y++;
+            maze.Add(line);
         }
 
         return maze;
