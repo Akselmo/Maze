@@ -118,7 +118,7 @@ public class Solver
         var exit = GetTileFromMaze(TileType.Exit);
         start.SetDistance(exit.Position);
         var success = SolveMazePath(start, exit, maximumMoves);
-        Graphics.Render(Maze);
+        Graphics.Render(Maze, TotalMoves, maximumMoves);
         return success;
         
     }
