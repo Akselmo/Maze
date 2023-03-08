@@ -6,7 +6,7 @@ public class Solver
     private int TotalMoves = 0;
     private int MaximumMoves = 0;
 
-    public enum BacktrackStatus
+    enum BacktrackStatus
     {
         Done,
         Skip,
