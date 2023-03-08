@@ -13,7 +13,7 @@ internal class Program
         }
     }
 
-    public static bool Run(string filePath)
+    static bool Run(string filePath)
     {
         Console.WriteLine("Solving maze in file: " + filePath);
         Maze mazeArray = FileParser.ReadFile(filePath);

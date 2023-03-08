@@ -19,15 +19,21 @@ public static class FileParser
         foreach (var li in lines)
         {
             List<Tile> line = new List<Tile>();
+            
             foreach (char ch in li)
             {
-                var tile = new Tile(new Point(x, y), null, 0);
-                tile.Type = (TileType)ch;
+                var tile = new Tile(new Point(x, y), null, 0)
+                {
+                    Type = (TileType)ch
+                };
+                
                 line.Add(tile);
                 x++;
             }
+            
             x = 0;
             y++;
+            
             grid.Add(line);
         }
 

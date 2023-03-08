@@ -3,9 +3,9 @@ using Raylib_cs;
 
 public static class Graphics
 {
+    private static int WindowWidth = 800;
+    private static int WindowHeight = 600;
     
-    public static int WindowWidth = 800;
-    public static int WindowHeight = 600;
     public static void Render(Maze maze, int totalMoves, int maxMoves)
     {
         Raylib.InitWindow(WindowWidth, WindowHeight, "Close window with ESC");
@@ -38,16 +38,16 @@ public static class Graphics
                         color = Color.RED;
                     }
                     Raylib.DrawText(""+(char)tile.Type, 
-                        DrawingStartX+tile.Position.X*20, 
-                        DrawingStartY+tile.Position.Y*20, 
-                        20, color);
+                                DrawingStartX+tile.Position.X*20, 
+                                DrawingStartY+tile.Position.Y*20, 
+                                20, color);
                 }
             }
             Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves,  
-                DrawingStartX, 
-                Raylib.GetScreenHeight() - 50, 
-                30, 
-                Color.BLACK);
+                            DrawingStartX, 
+                            Raylib.GetScreenHeight() - 50, 
+                            30, 
+                            Color.BLACK);
             
             Raylib.EndDrawing();
         }

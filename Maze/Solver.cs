@@ -2,15 +2,15 @@ namespace Maze;
 
 public class Solver
 {
-    public Maze Maze;
-    public int TotalMoves = 0;
+    private Maze Maze;
+    private int TotalMoves = 0;
 
     public Solver(Maze maze)
     {
         Maze = maze;
     }
-
-    public bool SolveMazePath(Tile startTile, Tile endTile, int maximumMoves)
+    
+    bool SolveMazePath(Tile startTile, Tile endTile, int maximumMoves)
     {
         startTile.SetDistance(endTile.Position);
 
@@ -21,51 +21,16 @@ public class Solver
         {
             var checkTile = activeTiles.OrderBy(x => x.CostDistance).First();
 
-            if(checkTile.Position == endTile.Position)
+            if (BackTrack(checkTile, endTile))
             {
-                var tile = checkTile;
-                Console.WriteLine("Retracing steps backwards...");
-                while(true)
-                {
-                    Console.WriteLine($"{tile.Position.X} : {tile.Position.Y}");
-                    if(Maze.Grid[tile.Position.Y][tile.Position.X].Type == TileType.Path)
-                    {
-                        Maze.Grid[tile.Position.Y][tile.Position.X].Type = TileType.Visited;
-                    }
-                    tile = tile.Parent;
-                    if(tile == null)
-                    {
-                        Console.WriteLine("Done!");
-                        Console.WriteLine("Moves: " + TotalMoves + " / " + maximumMoves);
-                        return true;
-                    }
-                }
+                Console.WriteLine("Moves: " + TotalMoves + " / " + maximumMoves);
+                return true;
             }
 
             checkTile.Visited = true;
             activeTiles.Remove(checkTile);
 
-            var walkableTiles = GetWalkableTiles(checkTile, endTile);
-
-            foreach(var walkableTile in walkableTiles)
-            {
-                if (walkableTile.Visited)
-                    continue;
-
-                if(activeTiles.Any(x => x.Position == walkableTile.Position))
-                {
-                    var existingTile = activeTiles.First(x => x.Position == walkableTile.Position);
-                    if(existingTile.CostDistance > checkTile.CostDistance)
-                    {
-                        activeTiles.Remove(existingTile);
-                        activeTiles.Add(walkableTile);
-                    }
-                }
-                else
-                {
-                    activeTiles.Add(walkableTile);
-                }
-            }
+            WalkTiles(activeTiles, checkTile, endTile);
 
             TotalMoves++;
         }
@@ -75,6 +40,55 @@ public class Solver
         return false;
     }
     
+    bool BackTrack(Tile checkTile, Tile endTile)
+    {
+        if(checkTile.Position == endTile.Position)
+        {
+            var tile = checkTile;
+            Console.WriteLine("Retracing steps backwards...");
+            while(true)
+            {
+                if(GetTileFromGrid(tile.Position).Type == TileType.Path)
+                {
+                    GetTileFromGrid(tile.Position).Type = TileType.Visited;
+                }
+                
+                tile = tile.Parent;
+                
+                if(tile == null)
+                {
+                    Console.WriteLine("Done!");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    void WalkTiles(List<Tile> activeTiles, Tile checkTile, Tile endTile)
+    {
+        var walkableTiles = GetWalkableTiles(checkTile, endTile);
+        foreach(var walkableTile in walkableTiles)
+        {
+            if (walkableTile.Visited)
+                continue;
+
+            if(activeTiles.Any(x => x.Position == walkableTile.Position))
+            {
+                var existingTile = activeTiles.First(x => x.Position == walkableTile.Position);
+                if(existingTile.CostDistance > checkTile.CostDistance)
+                {
+                    activeTiles.Remove(existingTile);
+                    activeTiles.Add(walkableTile);
+                }
+            }
+            else
+            {
+                activeTiles.Add(walkableTile);
+            }
+        }
+    }
+    
     private List<Tile> GetWalkableTiles(Tile currentTile, Tile targetTile)
     {
         Point north = new Point(currentTile.Position.X, currentTile.Position.Y + 1);
@@ -82,45 +96,64 @@ public class Solver
         Point east = new Point(currentTile.Position.X + 1, currentTile.Position.Y);
         Point west = new Point(currentTile.Position.X - 1, currentTile.Position.Y);
             
-        var possibleTiles = new List<Tile>()
+        var possibleTiles = new List<Tile>
         {
-            new Tile( south, currentTile, currentTile.Cost + 1 ),
-            new Tile( north, currentTile, currentTile.Cost + 1 ),
-            new Tile( west, currentTile, currentTile.Cost + 1 ),
-            new Tile( east, currentTile, currentTile.Cost + 1 ),
+            new(south, currentTile, currentTile.Cost + 1),
+            new(north, currentTile, currentTile.Cost + 1),
+            new(west, currentTile, currentTile.Cost + 1),
+            new(east, currentTile, currentTile.Cost + 1)
         };
 
         possibleTiles.ForEach(tile => tile.SetDistance(targetTile.Position));
 
         return possibleTiles
-            .Where(tile => tile.Position.X >= 0 && tile.Position.X <= Maze.Width)
-            .Where(tile => tile.Position.Y >= 0 && tile.Position.Y <= Maze.Height)
-            .Where(tile => Maze.Grid[tile.Position.Y][tile.Position.X].Type == TileType.Path || 
-                           Maze.Grid[tile.Position.Y][tile.Position.X].Type == TileType.Exit)
+            .Where(tile => GetTileFromGrid(tile.Position).Type == TileType.Path || 
+                           GetTileFromGrid(tile.Position).Type == TileType.Exit)
             .ToList();
     }
     
-    public Tile GetTileFromMaze(TileType type)
+    Tile GetTileFromGrid(Point position)
     {
-        var position = (from tiles in Maze.Grid
-                            from tile in tiles
-                            where tile.Type == type
-                            select tile.Position).FirstOrDefault();
+        if (IsPositionWithinGrid(position))
+        {
+            return Maze.Grid[position.Y][position.X];
+        }
 
-        var newTile = new Tile(position, null, 0);
-        newTile.Type = type;
-        return newTile;
+        var nullTile = new Tile(position, null, 0)
+        {
+            Type = TileType.None
+        };
+        
+        return nullTile;
+    }
+    
+    bool IsPositionWithinGrid(Point position)
+    {
+        return position.X >= 0 && position.X <= Maze.Width && position.Y >= 0 && position.Y <= Maze.Height;
+    }
+    
+    List<Tile> GetTilesByType(TileType type)
+    {
+        var tilesByType = (from tiles in Maze.Grid
+                                    from tile in tiles
+                                    where tile.Type == type
+                                    select tile).ToList();
+        return tilesByType;
     }
     
     public bool Run(int maximumMoves)
     {
-        var start = GetTileFromMaze(TileType.Start);
-        var exit = GetTileFromMaze(TileType.Exit);
+        var startTiles = GetTilesByType(TileType.Start);
+        var exitTiles = GetTilesByType(TileType.Exit);
+
+        var start = startTiles.First();
+        var exit = exitTiles.First();
         start.SetDistance(exit.Position);
+        
         var success = SolveMazePath(start, exit, maximumMoves);
         Graphics.Render(Maze, TotalMoves, maximumMoves);
-        return success;
         
+        return success;
     }
     
 }
