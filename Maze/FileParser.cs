@@ -2,7 +2,7 @@ namespace Maze;
 
 public static class FileParser
 {
-    public static List<List<Tile>> ReadFile(string filePath)
+    public static Maze ReadFile(string filePath)
     {
         if (!Path.Exists(filePath))
         {
@@ -13,7 +13,8 @@ public static class FileParser
         
         int x = 0;
         int y = 0;
-        List<List<Tile>> maze = new List<List<Tile>>();
+        Maze maze = new Maze();
+        List<List<Tile>> grid = new List<List<Tile>>();
 
         foreach (var li in lines)
         {
@@ -27,9 +28,11 @@ public static class FileParser
             }
             x = 0;
             y++;
-            maze.Add(line);
+            grid.Add(line);
         }
 
+        maze.Grid = grid;
+        
         return maze;
     }
 }

@@ -3,7 +3,7 @@ using Raylib_cs;
 
 public static class Graphics
 {
-    public static void Render(List<List<Tile>> maze)
+    public static void Render(Maze maze)
     {
         Raylib.InitWindow(800, 480, "Close window with ESC");
 
@@ -12,7 +12,7 @@ public static class Graphics
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.WHITE);
 
-            foreach (var line in maze)
+            foreach (var line in maze.Grid)
             {
                 foreach (var tile in line)
                 {

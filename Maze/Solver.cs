@@ -2,26 +2,22 @@ namespace Maze;
 
 public class Solver
 {
-    public List<List<Tile>> Maze;
-    public int Width = 0;
-    public int Height = 0;
+    public Maze Maze;
+    public int TotalMoves = 0;
 
-    public Solver(List<List<Tile>> maze)
+    public Solver(Maze maze)
     {
         Maze = maze;
-        Width = Maze[0].Count - 1;
-        Height = Maze.Count - 1;
     }
 
     public bool SolveMazePath(Tile startTile, Tile endTile, int maximumMoves)
     {
-        var moves = 0;
         startTile.SetDistance(endTile.Position);
 
         var activeTiles = new List<Tile>();
         activeTiles.Add(startTile);
 
-        while(activeTiles.Any() && moves < maximumMoves)
+        while(activeTiles.Any() || TotalMoves > maximumMoves)
         {
             var checkTile = activeTiles.OrderBy(x => x.CostDistance).First();
 
@@ -32,14 +28,15 @@ public class Solver
                 while(true)
                 {
                     Console.WriteLine($"{tile.Position.X} : {tile.Position.Y}");
-                    if(Maze[tile.Position.Y][tile.Position.X].Type == TileType.Path)
+                    if(Maze.Grid[tile.Position.Y][tile.Position.X].Type == TileType.Path)
                     {
-                        Maze[tile.Position.Y][tile.Position.X].Type = TileType.Visited;
+                        Maze.Grid[tile.Position.Y][tile.Position.X].Type = TileType.Visited;
                     }
                     tile = tile.Parent;
                     if(tile == null)
                     {
                         Console.WriteLine("Done!");
+                        Console.WriteLine("Moves: " + TotalMoves + " / " + maximumMoves);
                         return true;
                     }
                 }
@@ -70,10 +67,11 @@ public class Solver
                 }
             }
 
-            moves++;
+            TotalMoves++;
         }
 
         Console.WriteLine("No Path Found!");
+        Console.WriteLine("Moves: " + TotalMoves + " / " + maximumMoves);
         return false;
     }
     
@@ -95,16 +93,16 @@ public class Solver
         possibleTiles.ForEach(tile => tile.SetDistance(targetTile.Position));
 
         return possibleTiles
-            .Where(tile => tile.Position.X >= 0 && tile.Position.X <= Width)
-            .Where(tile => tile.Position.Y >= 0 && tile.Position.Y <= Height)
-            .Where(tile => Maze[tile.Position.Y][tile.Position.X].Type == TileType.Path || 
-                           Maze[tile.Position.Y][tile.Position.X].Type == TileType.Exit)
+            .Where(tile => tile.Position.X >= 0 && tile.Position.X <= Maze.Width)
+            .Where(tile => tile.Position.Y >= 0 && tile.Position.Y <= Maze.Height)
+            .Where(tile => Maze.Grid[tile.Position.Y][tile.Position.X].Type == TileType.Path || 
+                           Maze.Grid[tile.Position.Y][tile.Position.X].Type == TileType.Exit)
             .ToList();
     }
     
     public Tile GetTileFromMaze(TileType type)
     {
-        var position = (from tiles in Maze
+        var position = (from tiles in Maze.Grid
                             from tile in tiles
                             where tile.Type == type
                             select tile.Position).FirstOrDefault();
