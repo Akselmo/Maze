@@ -13,7 +13,10 @@ public static class FileParser
         
         int x = 0;
         int y = 0;
+        
         Maze maze = new Maze();
+        maze.Path = filePath;
+        
         List<List<Tile>> grid = new List<List<Tile>>();
 
         foreach (var li in lines)

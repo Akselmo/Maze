@@ -8,7 +8,7 @@ public static class Graphics
     
     public static void Render(Maze maze, int totalMoves, int maxMoves)
     {
-        Raylib.InitWindow(WindowWidth, WindowHeight, "Close window with ESC");
+        Raylib.InitWindow(WindowWidth, WindowHeight, "Maze Solver");
         
         int DrawingStartX = WindowWidth/maze.Width; 
         int DrawingStartY = 10;
@@ -37,17 +37,12 @@ public static class Graphics
                     {
                         color = Color.RED;
                     }
-                    Raylib.DrawText(""+(char)tile.Type, 
-                                DrawingStartX+tile.Position.X*20, 
-                                DrawingStartY+tile.Position.Y*20, 
-                                20, color);
+                    Raylib.DrawText(""+(char)tile.Type, DrawingStartX+tile.Position.X*20, DrawingStartY+tile.Position.Y*20, 20, color);
                 }
             }
-            Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves,  
-                            DrawingStartX, 
-                            Raylib.GetScreenHeight() - 50, 
-                            30, 
-                            Color.BLACK);
+            
+            Raylib.DrawText("Maze: " + Path.GetFileName(maze.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, Color.BLACK);
+            Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves, DrawingStartX, Raylib.GetScreenHeight() - 50, 20, Color.BLACK);
             
             Raylib.EndDrawing();
         }
