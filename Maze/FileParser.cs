@@ -16,8 +16,6 @@ public static class FileParser
         
         Maze maze = new Maze();
         maze.Path = filePath;
-        
-        List<List<Tile>> grid = new List<List<Tile>>();
 
         // Turn text file into a grid of tiles
         foreach (var li in lines)
@@ -40,11 +38,9 @@ public static class FileParser
             x = 0;
             y++;
             
-            grid.Add(line);
+            maze.Grid.Add(line);
         }
 
-        maze.Grid = grid;
-        
         return maze;
     }
 }
