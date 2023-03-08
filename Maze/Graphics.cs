@@ -16,13 +16,13 @@ public static class Graphics
         while (!Raylib.WindowShouldClose())
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.WHITE);
+            Raylib.ClearBackground(Color.BLACK);
 
             foreach (var line in maze.Grid)
             {
                 foreach (var tile in line)
                 {
-                    var color = Color.BLACK;
+                    var color = Color.GRAY;
                     if (tile.Type == TileType.Start)
                     {
                         color = Color.BLUE;
@@ -41,8 +41,8 @@ public static class Graphics
                 }
             }
             
-            Raylib.DrawText("Maze: " + Path.GetFileName(maze.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, Color.BLACK);
-            Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves, DrawingStartX, Raylib.GetScreenHeight() - 50, 20, Color.BLACK);
+            Raylib.DrawText("Maze: " + Path.GetFileName(maze.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, Color.WHITE);
+            Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves, DrawingStartX, Raylib.GetScreenHeight() - 50, 20, Color.WHITE);
             
             Raylib.EndDrawing();
         }
