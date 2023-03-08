@@ -1,5 +1,6 @@
 namespace Maze;
 
+// Different types the tile can be, with the matching character in the text file
 public enum TileType
 {
     Block = '#', 
@@ -27,6 +28,7 @@ public class Tile
         Cost = cost;
     }
 
+    // Estimated distance of the target and the tile position, ignoring walls.
     public void SetDistance(Point target)
     {
         Distance = Math.Abs(target.X - Position.X) + Math.Abs(target.Y - Position.Y);

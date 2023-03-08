@@ -13,6 +13,7 @@ public struct Point
         Y = y;
     }
     
+    // Overload for == operator
     public static bool operator ==(Point a, Point b)
     {
         bool xEqual = a.X == b.X;
@@ -21,6 +22,7 @@ public struct Point
         return xEqual && yEqual;
     }
 
+    // Overload for != operator
     public static bool operator !=(Point a, Point b)
     {
         return !(a == b);

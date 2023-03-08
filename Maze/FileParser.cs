@@ -19,14 +19,17 @@ public static class FileParser
         
         List<List<Tile>> grid = new List<List<Tile>>();
 
+        // Turn text file into a grid of tiles
         foreach (var li in lines)
         {
             List<Tile> line = new List<Tile>();
             
             foreach (char ch in li)
             {
+                // Create new tile based on the position
                 var tile = new Tile(new Point(x, y), null, 0)
                 {
+                    // Set the type of the tile by looking at the text grid for same character
                     Type = (TileType)ch
                 };
                 

@@ -8,7 +8,7 @@ internal class Program
         {
             if (!Run(file))
             {
-                Console.WriteLine("Something went wrong with solving file: " + file);
+                Console.WriteLine("Failed to solve file: " + file);
             }
         }
     }
@@ -23,6 +23,6 @@ internal class Program
         }
         var mazeSolver = new Solver(mazeArray);
 
-        return mazeSolver.Run(500);
+        return mazeSolver.Run(200);
     }
 }
