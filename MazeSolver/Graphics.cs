@@ -12,7 +12,7 @@ public static class Graphics
     
     public static void Render(MazeObject mazeObject, int totalMoves, int maxMoves)
     {
-        Raylib.InitWindow(WindowWidth, WindowHeight, "MazeSolver Solver");
+        Raylib.InitWindow(WindowWidth, WindowHeight, "MazeSolver");
         
         int DrawingStartX = WindowWidth/mazeObject.Width; 
         int DrawingStartY = 10;
