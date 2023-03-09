@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze", "Maze\Maze.csproj", "{48E5DF50-F63F-4284-A39D-B15D0A623D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSolver", "MazeSolver\MazeSolver.csproj", "{48E5DF50-F63F-4284-A39D-B15D0A623D96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeTests", "MazeTests\MazeTests.csproj", "{0277D07F-E080-4785-843F-CA1ECE33D922}"
 EndProject

@@ -12,7 +12,7 @@ public static class Graphics
     
     public static void Render(MazeObject mazeObject, int totalMoves, int maxMoves)
     {
-        Raylib.InitWindow(WindowWidth, WindowHeight, "Maze Solver");
+        Raylib.InitWindow(WindowWidth, WindowHeight, "MazeSolver Solver");
         
         int DrawingStartX = WindowWidth/mazeObject.Width; 
         int DrawingStartY = 10;
@@ -37,7 +37,7 @@ public static class Graphics
             }
             
             // Draw UI text
-            Raylib.DrawText("Maze: " + Path.GetFileName(mazeObject.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, TextColor);
+            Raylib.DrawText("MazeSolver: " + Path.GetFileName(mazeObject.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, TextColor);
             Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves, DrawingStartX, Raylib.GetScreenHeight() - 50, 20, TextColor);
             
             Raylib.EndDrawing();

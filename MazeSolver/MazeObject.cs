@@ -1,6 +1,6 @@
 namespace Maze;
 
-// A simple class to hold all Maze related items
+// A simple class to hold all MazeSolver related items
 public class MazeObject
 {
     public List<List<Tile>> Grid = new List<List<Tile>>();
