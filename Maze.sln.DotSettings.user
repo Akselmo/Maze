@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d1e3c156_002Dcdde_002D43c8_002D8f45_002D2f742cd8cae2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from MazeTest.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::0277D07F-E080-4785-843F-CA1ECE33D922::net7.0::MazeTests.MazeTests.MazeLowMoves&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::0277D07F-E080-4785-843F-CA1ECE33D922::net7.0::MazeTests.MazeTests.Maze200Moves&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::0277D07F-E080-4785-843F-CA1ECE33D922::net7.0::MazeTests.MazeTests.MazeBroken&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
