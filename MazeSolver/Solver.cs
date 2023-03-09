@@ -2,7 +2,7 @@ namespace Maze;
 
 public class Solver
 {
-    private MazeObject _mazeObject;
+    private MazeObject mazeObject;
     private int TotalMoves = 0;
     private int MaximumMoves = 0;
 
@@ -15,7 +15,7 @@ public class Solver
     
     public Solver(MazeObject mazeObject)
     {
-        _mazeObject = mazeObject;
+        this.mazeObject = mazeObject;
     }
     
     bool SolveMazePath(Tile startTile, Tile endTile)
@@ -152,7 +152,7 @@ public class Solver
         // If tile is inside grid, return tile
         if (IsPositionWithinGrid(position))
         {
-            return _mazeObject.Grid[position.Y][position.X];
+            return mazeObject.Grid[position.Y][position.X];
         }
 
         // Otherwise return a tile with None type, so solver knows to ignore it
@@ -167,13 +167,13 @@ public class Solver
     bool IsPositionWithinGrid(Point position)
     {
         // Check that position is within the grid of our maze
-        return position.X >= 0 && position.X <= _mazeObject.Width && position.Y >= 0 && position.Y <= _mazeObject.Height;
+        return position.X >= 0 && position.X <= mazeObject.Width && position.Y >= 0 && position.Y <= mazeObject.Height;
     }
     
     List<Tile> GetTilesByType(TileType type)
     {
         // Get tiles by given type, tried some LINQ here :)
-        var tilesByType = (from tiles in _mazeObject.Grid
+        var tilesByType = (from tiles in mazeObject.Grid
                                     from tile in tiles
                                     where tile.Type == type
                                     select tile).ToList();
@@ -217,8 +217,9 @@ public class Solver
         start.SetDistanceToTarget(exit.Position);
         
         var success = SolveMazePath(start, exit);
+        mazeObject.Solved = success;
 
-        Graphics.Render(_mazeObject, TotalMoves, maximumMoves);
+        Graphics.Render(mazeObject, TotalMoves, maximumMoves);
 
         return success;
     }

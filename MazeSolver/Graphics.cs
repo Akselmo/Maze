@@ -21,7 +21,7 @@ public static class Graphics
         {
             Raylib.BeginDrawing();
             Raylib.ClearBackground(BackgroundColor);
-
+            
             // Draw the maze
             foreach (var line in mazeObject.Grid)
             {
@@ -39,6 +39,14 @@ public static class Graphics
             // Draw UI text
             Raylib.DrawText("MazeSolver: " + Path.GetFileName(mazeObject.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, TextColor);
             Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves, DrawingStartX, Raylib.GetScreenHeight() - 50, 20, TextColor);
+            if (!mazeObject.Solved)
+            {
+                Raylib.DrawText("Failed to solve the maze!", DrawingStartX, Raylib.GetScreenHeight() - 150, 20, Color.RED);
+            }
+            else
+            {
+                Raylib.DrawText("Maze solved!", DrawingStartX, Raylib.GetScreenHeight() - 150, 20, Color.GREEN);
+            }
             
             Raylib.EndDrawing();
         }
