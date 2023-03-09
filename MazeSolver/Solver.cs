@@ -217,12 +217,9 @@ public class Solver
         start.SetDistanceToTarget(exit.Position);
         
         var success = SolveMazePath(start, exit);
-        // Only render the graphics if the solve was a success
-        if (success)
-        {
-            Graphics.Render(_mazeObject, TotalMoves, maximumMoves);
-        }
-        
+
+        Graphics.Render(_mazeObject, TotalMoves, maximumMoves);
+
         return success;
     }
     

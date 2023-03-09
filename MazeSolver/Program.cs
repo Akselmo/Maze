@@ -6,14 +6,25 @@ internal class Program
     {
         foreach (var file in args)
         {
-            if (!Run(file))
-            {
-                Console.WriteLine("Failed to solve file: " + file);
-            }
+            TrySolveMaze(file, 20);
+            TrySolveMaze(file, 150);
+            TrySolveMaze(file, 200);
         }
     }
 
-    static bool Run(string filePath)
+    static void TrySolveMaze(string filePath, int maximumMoves)
+    {
+        if (!RunSolver(filePath, maximumMoves))
+        {
+            Console.WriteLine("Failed to solve file: " + filePath + " with" + maximumMoves +" moves.");
+        }
+        else
+        {
+            Console.WriteLine("Solved file: " + filePath + " with" + maximumMoves +" moves!");
+        }
+    }
+
+    static bool RunSolver(string filePath, int maximumMoves)
     {
         Console.WriteLine("Solving maze in file: " + filePath);
         
@@ -21,6 +32,6 @@ internal class Program
         
         var mazeSolver = new Solver(mazeObjectArray);
 
-        return mazeSolver.Run(200);
+        return mazeSolver.Run(maximumMoves);
     }
 }
