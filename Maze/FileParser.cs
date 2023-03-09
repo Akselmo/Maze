@@ -5,10 +5,9 @@ public static class FileParser
 
     public static string[] TryReadingLines(string filePath)
     {
-        string[] lines;
         try
         {
-            lines = File.ReadAllLines(filePath);
+            string[] lines = File.ReadAllLines(filePath);
             if (lines.Length == 0)
             {
                 throw new FileIsEmptyException(filePath);
