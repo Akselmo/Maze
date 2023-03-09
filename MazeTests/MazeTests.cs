@@ -2,7 +2,7 @@ namespace MazeTests;
 
 public class MazeTests
 {
-    public Maze.MazeObject MazeObject;
+    private MazeObject MazeObject;
     private string WorkingMazeFilePath = "../../../../maze-task-first.txt";
 
     [SetUp]
