@@ -16,11 +16,9 @@ internal class Program
     static bool Run(string filePath)
     {
         Console.WriteLine("Solving maze in file: " + filePath);
+        
         Maze mazeArray = FileParser.ReadFile(filePath);
-        if (mazeArray == null)
-        {
-            return false;
-        }
+        
         var mazeSolver = new Solver(mazeArray);
 
         return mazeSolver.Run(200);

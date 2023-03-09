@@ -2,14 +2,30 @@ namespace Maze;
 
 public static class FileParser
 {
+
+    public static string[] TryReadingLines(string filePath)
+    {
+        string[] lines;
+        try
+        {
+            lines = File.ReadAllLines(filePath);
+            if (lines.Length == 0)
+            {
+                throw new FileIsEmptyException(filePath);
+            }
+            return lines;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
     public static Maze ReadFile(string filePath)
     {
-        if (!Path.Exists(filePath))
-        {
-            return null;
-        }
         
-        var lines = File.ReadAllLines(filePath);
+        var lines = TryReadingLines(filePath);
         
         int x = 0;
         int y = 0;
@@ -42,5 +58,17 @@ public static class FileParser
         }
 
         return maze;
+    }
+    
+    [Serializable]
+    public class FileIsEmptyException : Exception
+    {
+        public FileIsEmptyException() { }
+
+        public FileIsEmptyException(string message) : base(message)
+        {
+            Console.WriteLine("File " + message + " is empty!");
+        }
+        
     }
 }
