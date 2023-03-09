@@ -1,7 +1,7 @@
 namespace Maze;
 
 // A simple class to hold all Maze related items
-public class Maze
+public class MazeObject
 {
     public List<List<Tile>> Grid = new List<List<Tile>>();
     public string Path = "";

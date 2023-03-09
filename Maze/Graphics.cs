@@ -10,11 +10,11 @@ public static class Graphics
     private static Color BackgroundColor = Color.BLACK;
     private static Color TextColor = Color.WHITE;
     
-    public static void Render(Maze maze, int totalMoves, int maxMoves)
+    public static void Render(MazeObject mazeObject, int totalMoves, int maxMoves)
     {
         Raylib.InitWindow(WindowWidth, WindowHeight, "Maze Solver");
         
-        int DrawingStartX = WindowWidth/maze.Width; 
+        int DrawingStartX = WindowWidth/mazeObject.Width; 
         int DrawingStartY = 10;
         
         while (!Raylib.WindowShouldClose())
@@ -23,7 +23,7 @@ public static class Graphics
             Raylib.ClearBackground(BackgroundColor);
 
             // Draw the maze
-            foreach (var line in maze.Grid)
+            foreach (var line in mazeObject.Grid)
             {
                 foreach (var tile in line)
                 {
@@ -37,7 +37,7 @@ public static class Graphics
             }
             
             // Draw UI text
-            Raylib.DrawText("Maze: " + Path.GetFileName(maze.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, TextColor);
+            Raylib.DrawText("Maze: " + Path.GetFileName(mazeObject.Path), DrawingStartX, Raylib.GetScreenHeight() - 100, 20, TextColor);
             Raylib.DrawText("Moves: " + totalMoves + "/" + maxMoves, DrawingStartX, Raylib.GetScreenHeight() - 50, 20, TextColor);
             
             Raylib.EndDrawing();

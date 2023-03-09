@@ -17,9 +17,9 @@ internal class Program
     {
         Console.WriteLine("Solving maze in file: " + filePath);
         
-        Maze mazeArray = FileParser.ReadFile(filePath);
+        MazeObject mazeObjectArray = FileParser.ReadFile(filePath);
         
-        var mazeSolver = new Solver(mazeArray);
+        var mazeSolver = new Solver(mazeObjectArray);
 
         return mazeSolver.Run(200);
     }
