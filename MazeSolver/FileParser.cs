@@ -58,16 +58,4 @@ public static class FileParser
 
         return mazeObject;
     }
-    
-    [Serializable]
-    public class FileIsEmptyException : Exception
-    {
-        public FileIsEmptyException() { }
-
-        public FileIsEmptyException(string message) : base(message)
-        {
-            Console.WriteLine("File " + message + " is empty!");
-        }
-        
-    }
 }

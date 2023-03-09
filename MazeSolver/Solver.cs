@@ -28,6 +28,7 @@ public class Solver
         // Loop through tiles until check tiles is empty or we reach the maximum moves
         while(checkTiles.Any())
         {
+            //Take the tile with the lowest Distance + Cost
             var checkTile = checkTiles.OrderBy(x => x.CostDistance).First();
 
             var backtrackStatus = BackTrack(checkTile, endTile);
@@ -176,6 +177,11 @@ public class Solver
                                     from tile in tiles
                                     where tile.Type == type
                                     select tile).ToList();
+        if (tilesByType.Count == 0)
+        {
+            throw new NoTileTypeFound(type.ToString());
+        }
+        
         return tilesByType;
     }
 
