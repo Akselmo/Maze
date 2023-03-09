@@ -1,5 +1,7 @@
 # Maze Solver
 
+![maze.png](maze.png)
+
 This C# project takes a maze inside a text file, parses it and then uses A* pathfinding
 to get the shortest route from start to end.
 
