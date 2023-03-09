@@ -91,7 +91,7 @@ public class Solver
         return BacktrackStatus.Skip;
     }
     
-    void WalkTiles(List<Tile> activeTiles, Tile checkTile, Tile endTile)
+    void WalkTiles(List<Tile> checkTiles, Tile checkTile, Tile endTile)
     {
         // Get list of tiles that we can walk on
         var walkableTiles = GetWalkableTiles(checkTile, endTile);
@@ -103,19 +103,19 @@ public class Solver
                 continue;
 
             // Check if any tiles in the active list have better movement value
-            if(activeTiles.Any(x => x.Position == walkableTile.Position))
+            if(checkTiles.Any(x => x.Position == walkableTile.Position))
             {
-                var existingTile = activeTiles.First(x => x.Position == walkableTile.Position);
+                var existingTile = checkTiles.First(x => x.Position == walkableTile.Position);
                 if(existingTile.CostDistance > checkTile.CostDistance)
                 {
-                    activeTiles.Remove(existingTile);
-                    activeTiles.Add(walkableTile);
+                    checkTiles.Remove(existingTile);
+                    checkTiles.Add(walkableTile);
                 }
             }
             else
             {
                 // Unseen tile, add it to active tiles
-                activeTiles.Add(walkableTile);
+                checkTiles.Add(walkableTile);
             }
         }
     }
