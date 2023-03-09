@@ -20,7 +20,7 @@ public class Solver
     
     bool SolveMazePath(Tile startTile, Tile endTile)
     {
-        startTile.SetDistance(endTile.Position);
+        startTile.SetDistanceToTarget(endTile.Position);
 
         // List of tiles to check the adjacent tiles from
         var checkTiles = new List<Tile> { startTile };
@@ -137,7 +137,7 @@ public class Solver
         };
 
         // Set the distance for each tile
-        possibleTiles.ForEach(tile => tile.SetDistance(targetTile.Position));
+        possibleTiles.ForEach(tile => tile.SetDistanceToTarget(targetTile.Position));
 
         // Return only tiles that are either Path or Exit type
         return possibleTiles
@@ -178,6 +178,21 @@ public class Solver
                                     select tile).ToList();
         return tilesByType;
     }
+
+    Tile GetTileWithShortestDistance(Tile start, List<Tile> endTiles)
+    {
+        Tile nearest = endTiles.First();
+        endTiles.Remove(nearest);
+        foreach (var end in endTiles)
+        {
+            if (start.GetDistanceToTarget(end.Position) < nearest.Distance)
+            {
+                nearest = end;
+            }
+        }
+
+        return nearest;
+    }
     
     public bool Run(int maximumMoves)
     {
@@ -189,8 +204,11 @@ public class Solver
 
         // Get the first tile
         var start = startTiles.First();
-        var exit = exitTiles.First();
-        start.SetDistance(exit.Position);
+
+        // Get the exit with the shortest distance
+        Tile exit = GetTileWithShortestDistance(start, exitTiles);
+
+        start.SetDistanceToTarget(exit.Position);
         
         var success = SolveMazePath(start, exit);
         // Only render the graphics if the solve was a success

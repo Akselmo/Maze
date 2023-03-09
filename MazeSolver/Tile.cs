@@ -15,7 +15,7 @@ public class Tile
 {
     public Point Position;
     public int Cost;
-    private int Distance;
+    public int Distance;
     public int CostDistance => Cost + Distance;
     public Tile? Parent;
     public TileType Type;
@@ -29,8 +29,13 @@ public class Tile
     }
 
     // Estimated distance of the target and the tile position, ignoring walls.
-    public void SetDistance(Point target)
+    public int GetDistanceToTarget(Point target)
     {
-        Distance = Math.Abs(target.X - Position.X) + Math.Abs(target.Y - Position.Y);
+        return Math.Abs(target.X - Position.X) + Math.Abs(target.Y - Position.Y);
+    }
+    
+    public void SetDistanceToTarget(Point target)
+    {
+        Distance = GetDistanceToTarget(target);
     }
 }
